@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WallObject : MovingObject
+public class TreeBlocks : MovingObject
 {
     [SerializeField] private ObjectGame _objectGame;
 
@@ -14,7 +14,7 @@ public class WallObject : MovingObject
                 _objectGame.ReturnToPool();
             else
             {
-                //gameObject.SetActive(false);
+                gameObject.SetActive(false);
             }
         }
     }

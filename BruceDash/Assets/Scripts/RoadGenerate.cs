@@ -5,21 +5,48 @@ using UnityEngine;
 public class RoadGenerate : MonoBehaviour
 {
     public GameObject[] RoadPieces = new GameObject[2];
-    public float RoadLength = 100f; //length of roads
+    public float RoadLength = 100f;
 
-    public float RoadSpeed = 5f; //speed to scroll roads at
+    public float RoadSpeed = 5f;
+
+    private bool isMove = false;
+
+    private void Start()
+    {
+        GameMain.OnStartGame += StartMove;
+        GameMain.OnEndGame += StopMove;
+    }
+
+    private void OnDestroy()
+    {
+        GameMain.OnStartGame -= StartMove;
+        GameMain.OnEndGame -= StopMove;
+    }
+
+    private void StopMove()
+    {
+        isMove = false;
+    }
+
+    private void StartMove()
+    {
+        isMove = true;
+    }
 
     void Update()
     {
-        foreach (GameObject road in RoadPieces)
+        if (isMove)
         {
-            Vector3 newRoadPos = road.transform.position;
-            newRoadPos.x -= RoadSpeed * Time.deltaTime;
-            if (newRoadPos.x < -RoadLength / 2)
+            foreach (GameObject road in RoadPieces)
             {
-                newRoadPos.x += RoadLength;
+                Vector3 newRoadPos = road.transform.position;
+                newRoadPos.x -= RoadSpeed * Time.deltaTime;
+                if (newRoadPos.x < -RoadLength / 2)
+                {
+                    newRoadPos.x += RoadLength;
+                }
+                road.transform.position = newRoadPos;
             }
-            road.transform.position = newRoadPos;
         }
     }
 }

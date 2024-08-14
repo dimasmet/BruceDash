@@ -10,9 +10,39 @@ public class ChipPlayer : MonoBehaviour
 
     private bool isGround = false;
 
+    [SerializeField] private GameObject _prefabsDestoroyObjects;
+
+    private GameObject destoryObj;
+
+    private Vector2 posStart;
+
     private void Awake()
     {
 
+    }
+
+    private void Start()
+    {
+        posStart = transform.position;
+
+        GameMain.OnStartGame += ResetChipPlayer;
+    }
+
+    private void OnDestroy()
+    {
+        GameMain.OnStartGame -= ResetChipPlayer;
+    }
+
+    private void ResetChipPlayer()
+    {
+        if (destoryObj != null)
+        {
+            Destroy(destoryObj);
+        }
+        transform.position = posStart;
+        GetComponent<CircleCollider2D>().enabled = true;
+        _rbBall.isKinematic = false;
+        transform.GetChild(0).gameObject.SetActive(true);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -20,6 +50,27 @@ public class ChipPlayer : MonoBehaviour
         if (collision.transform.TryGetComponent(out Ground ground))
         {
             isGround = true;
+        }
+
+        if (collision.gameObject.TryGetComponent(out WallObject wall))
+        {
+            transform.GetChild(0).gameObject.SetActive(false);
+            destoryObj = Instantiate(_prefabsDestoroyObjects, _prefabsDestoroyObjects.transform.parent);
+            destoryObj.SetActive(true);
+
+            _rbBall.isKinematic = true;
+            GetComponent<CircleCollider2D>().enabled = false;
+
+            GameMain.OnEndGame?.Invoke();
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.TryGetComponent(out StarObject star))
+        {
+            star.CollectCoin();
+            BalancePlayer.OnAddedBalance?.Invoke(1);
         }
     }
 
