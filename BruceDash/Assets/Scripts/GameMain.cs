@@ -36,6 +36,8 @@ public class GameMain : MonoBehaviour
 
     private void Awake()
     {
+        Application.targetFrameRate = 90;
+
         if (Instance == null) Instance = this;
     }
 
