@@ -8,12 +8,17 @@ public class GameMain : MonoBehaviour
 {
     public static GameMain Instance;
 
+    public static BalancePlayer BalancePlayer;
+
+    // Actions game
     public static Action OnCircleLevelSuccess;
     public static Action OnCircleLevelOvercome;
 
+    public static Action OnClearScene;
     public static Action OnStartGame;
     public static Action OnEndGame;
-
+    public static Action OnResultGame;
+    //
     [SerializeField] private LevelData[] _levelsData;
 
     public static LevelData currentLevel;
@@ -23,36 +28,70 @@ public class GameMain : MonoBehaviour
 
     private bool isOvercomeCircleLevel = false;
 
-    public static BalancePlayer BalancePlayer;
+    [SerializeField] private TimeLevel _timeLevelHandler;
 
-    [SerializeField] private Button _startBtn;
+    [Header("Result view control")]
+    [SerializeField] private ResultLevelView _resultLevelView;
+    //Records
+    private RecordPlayerInGame _recordPlayerInGame;
+    [SerializeField] private Text _recordTextField;
 
     private void Awake()
     {
         if (Instance == null) Instance = this;
-
-        _startBtn.onClick.AddListener(() =>
-        {
-            OnStartGame?.Invoke();
-        });
     }
 
     private void Start()
     {
         OnCircleLevelSuccess += CircleLevelSuccess;
         OnCircleLevelOvercome += CheckSuccessCheckLevel;
+        OnStartGame += RunGame;
+        OnEndGame += StopGame;
+        OnResultGame += OpenResultLevel;
+
+        _recordPlayerInGame = new RecordPlayerInGame(_recordTextField);
 
         currentLevel = _levelsData[_numberCurrentLevel];
 
         isOvercomeCircleLevel = false;
-
-        //_balancePlayer = new BalancePlayer();
     }
 
     private void OnDestroy()
     {
         OnCircleLevelSuccess -= CircleLevelSuccess;
         OnCircleLevelOvercome -= CheckSuccessCheckLevel;
+        OnStartGame -= RunGame;
+        OnEndGame -= StopGame;
+        OnResultGame -= OpenResultLevel;
+    }
+
+    public void FirstStartLevel()
+    {
+        Time.timeScale = 1.5f;
+        _numberCurrentLevel = 0;
+        OnClearScene?.Invoke();
+        OnStartGame?.Invoke();
+        _timeLevelHandler.StartTime();
+    }
+
+    private void RunGame()
+    {
+        currentLevel = _levelsData[0];
+        MovingObject.ISMove = true;
+    }
+
+    private void StopGame()
+    {
+        _timeLevelHandler.GetResultTime();
+        MovingObject.ISMove = false;
+    }
+
+    private void OpenResultLevel()
+    {
+        float timeResult = _timeLevelHandler.GetResultTime();
+        bool isRecord = _recordPlayerInGame.CheckNewResult(timeResult);
+
+        _resultLevelView.ShowResultGame(_timeLevelHandler.GetTimeResultString(), isRecord);
     }
 
     private void CircleLevelSuccess()

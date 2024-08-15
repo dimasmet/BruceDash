@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ObjectGame : MonoBehaviour
@@ -14,5 +12,13 @@ public class ObjectGame : MonoBehaviour
     public void ReturnToPool()
     {
         _pool.ReturnToPool(this);
+    }
+
+    public void ActiveStars()
+    {
+        if (TryGetComponent(out StarListHandler starList))
+        {
+            starList.OpenStars();
+        }
     }
 }

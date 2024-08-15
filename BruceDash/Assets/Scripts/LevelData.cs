@@ -5,6 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class LevelData
 {
+    public int numberLevel;
     public int countStep;
     public Sprite _spriteCircleFinalLevel;
     public float speedMove;

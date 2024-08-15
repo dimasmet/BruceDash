@@ -5,13 +5,11 @@ using UnityEngine;
 public class SpawnerGame : MonoBehaviour
 {
     private GameObjectsPool _WallObjectsPool;
-    private GameObjectsPool _CircleObjectsPool;
     private GameObjectsPool _treeBlocksObjectsPool;
 
     [SerializeField] private Transform _containerObjects;
 
     [SerializeField] private WallObject _prefabWall;
-    [SerializeField] private CircleLevel _prefabCircle;
     [SerializeField] private TreeBlocks _prefabtreeBlocks;
 
     [SerializeField] private Transform _posSpawnWall;
@@ -20,16 +18,21 @@ public class SpawnerGame : MonoBehaviour
     [SerializeField] private Transform _posSpawnCircle;
     [SerializeField] private float _timeSpawnCircle;
 
-    [SerializeField] private MovingObject _WallDouble;
-    [SerializeField] private MovingObject _TreeDouble;
-    [SerializeField] private MovingObject _TreeThrow;
+    [SerializeField] private WallObject _WallDouble;
+    [SerializeField] private WallObject _TreeDouble;
+    [SerializeField] private WallObject _TreeThrow;
+    [SerializeField] private MovingObject _CircleLevel;
+
+    [SerializeField] private MovingObject _tableStep;
+    [SerializeField] private TextMesh _textMesh;
 
     private int _countWall;
+
+    public float TimeS;
 
     private void Awake()
     {
         _WallObjectsPool = new GameObjectsPool(_containerObjects, _prefabWall.GetComponent<ObjectGame>());
-        _CircleObjectsPool = new GameObjectsPool(_containerObjects, _prefabCircle.GetComponent<ObjectGame>());
         _treeBlocksObjectsPool = new GameObjectsPool(_containerObjects, _prefabtreeBlocks.GetComponent<ObjectGame>());
     }
 
@@ -53,9 +56,15 @@ public class SpawnerGame : MonoBehaviour
     public void StartGame()
     {
         _countWall = 0;
-        Time.timeScale = 1.5f;
 
-        Debug.Log("Spawn NEw");
+        _textMesh.text = "STEP " + GameMain.currentLevel.numberLevel;
+        _tableStep.transform.position = _posSpawnWall.position;
+        _tableStep.gameObject.SetActive(true);
+
+        Debug.Log("StartGame " + GameMain.currentLevel.speedMove);
+
+        Time.timeScale = GameMain.currentLevel.speedMove;
+        TimeS = Time.timeScale;
 
         StartCoroutine(WaitToSpawnNewWall());
         StartCoroutine(WaitToUpSpeed());
@@ -65,9 +74,12 @@ public class SpawnerGame : MonoBehaviour
     {
         while (Time.timeScale < GameMain.currentLevel.speedMove)
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.5f / Time.timeScale);
             Time.timeScale += 0.05f;
+
+            
         }
+
     }
 
     private IEnumerator WaitToSpawnNewWall()
@@ -91,11 +103,13 @@ public class SpawnerGame : MonoBehaviour
                     {
                         _TreeDouble.transform.position = _posSpawnCircle.position;
                         _TreeDouble.gameObject.SetActive(true);
+                        _TreeThrow.Init();
                     }
                     else
                     {
                         _TreeThrow.transform.position = _posSpawnCircle.position;
                         _TreeThrow.gameObject.SetActive(true);
+                        _TreeThrow.Init();
                     }
                 }
             }
@@ -112,7 +126,6 @@ public class SpawnerGame : MonoBehaviour
                 _countWall = 0;
                 SpawnCircleFinalLevel();
                 Invoke(nameof(SpawnTreeBlocksBonus),2f);
-                Debug.Log("Next Level Circle");
                 StopAllCoroutines();
             }
         }
@@ -120,16 +133,17 @@ public class SpawnerGame : MonoBehaviour
 
     private void SpawnCircleFinalLevel()
     {
-        ObjectGame objWall = _CircleObjectsPool.GetElement();
         Vector2 pos = _posSpawnCircle.position;
-        pos.x -= 4;
+        pos.x -= 15;
 
-        objWall.transform.position = pos;
+        _CircleLevel.transform.position = pos;
+        _CircleLevel.gameObject.SetActive(true);
     }
 
     private void SpawnTreeBlocksBonus()
     {
         ObjectGame objTreeBlocks = _treeBlocksObjectsPool.GetElement();
+        objTreeBlocks.ActiveStars();
         objTreeBlocks.transform.position = _posSpawnCircle.position;
     }
 }

@@ -445,7 +445,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 4
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.92941177, g: 0.2509804, b: 0.2509804, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -691,7 +691,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 4
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.92941177, g: 0.2509804, b: 0.2509804, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -937,7 +937,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 4
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.92941177, g: 0.2509804, b: 0.2509804, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1060,7 +1060,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 4
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.92941177, g: 0.2509804, b: 0.2509804, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1183,7 +1183,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 4
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.92941177, g: 0.2509804, b: 0.2509804, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -6253,8 +6253,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d436b2d2fccef42aab75436065d2969b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _spriteRender: {fileID: 7720034556203416555}
+  _spriteObjects:
+  - {fileID: 548050970}
+  - {fileID: 1143695747}
+  - {fileID: 236748314}
+  - {fileID: 667047256}
+  - {fileID: 1590962217}
+  _skinsData:
+  - skin: {fileID: 21300000, guid: 4da81cd9f61b4464f9d1e3f32c4dc0f4, type: 3}
+    colorParticles: {r: 0.92941177, g: 0.2509804, b: 0.2509804, a: 1}
+  - skin: {fileID: 21300000, guid: 56358959c85cb42b998efd85028eb366, type: 3}
+    colorParticles: {r: 0.15686275, g: 0.34117648, b: 0.9411765, a: 1}
+  - skin: {fileID: 21300000, guid: 0e1cbf464a8244147b39e8d2e900c7c8, type: 3}
+    colorParticles: {r: 0.9882353, g: 0.8901961, b: 0.15294118, a: 1}
+  - skin: {fileID: 21300000, guid: f203eca5ebd5441a7a0da1a161df805c, type: 3}
+    colorParticles: {r: 0.9372549, g: 0.32941177, b: 0, a: 1}
   _rbBall: {fileID: 7720034556254220210}
   _forceJump: 1150
+  _particleSystem: {fileID: 7720034555703901420}
   _prefabsDestoroyObjects: {fileID: 2041752254}
 --- !u!1 &7720034556648217748
 GameObject:

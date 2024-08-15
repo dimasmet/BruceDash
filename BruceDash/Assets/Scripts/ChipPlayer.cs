@@ -3,10 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[System.Serializable]
+public class DataSkinChip
+{
+    public Sprite skin;
+    public Color colorParticles;
+}
+
 public class ChipPlayer : MonoBehaviour
 {
+    [SerializeField] private SpriteRenderer _spriteRender;
+    [SerializeField] private SpriteRenderer[] _spriteObjects;
+    [SerializeField] private DataSkinChip[] _skinsData;
+
     [SerializeField] private Rigidbody2D _rbBall;
     [SerializeField] private float _forceJump;
+
+    [SerializeField] private ParticleSystem _particleSystem;
 
     private bool isGround = false;
 
@@ -15,11 +28,6 @@ public class ChipPlayer : MonoBehaviour
     private GameObject destoryObj;
 
     private Vector2 posStart;
-
-    private void Awake()
-    {
-
-    }
 
     private void Start()
     {
@@ -33,6 +41,19 @@ public class ChipPlayer : MonoBehaviour
         GameMain.OnStartGame -= ResetChipPlayer;
     }
 
+    public void SetSkin(int numberSkin)
+    {
+        DataSkinChip skin = _skinsData[numberSkin];
+        _particleSystem.startColor = skin.colorParticles;
+        _spriteRender.sprite = skin.skin;
+
+        for (int i = 0; i < _spriteObjects.Length; i++)
+        {
+            _spriteObjects[i].color = skin.colorParticles;
+        }
+
+    }
+
     private void ResetChipPlayer()
     {
         if (destoryObj != null)
@@ -43,6 +64,7 @@ public class ChipPlayer : MonoBehaviour
         GetComponent<CircleCollider2D>().enabled = true;
         _rbBall.isKinematic = false;
         transform.GetChild(0).gameObject.SetActive(true);
+        _particleSystem.Play();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -60,8 +82,9 @@ public class ChipPlayer : MonoBehaviour
 
             _rbBall.isKinematic = true;
             GetComponent<CircleCollider2D>().enabled = false;
-
+            _particleSystem.Stop();
             GameMain.OnEndGame?.Invoke();
+            GameMain.OnResultGame?.Invoke();
         }
     }
 

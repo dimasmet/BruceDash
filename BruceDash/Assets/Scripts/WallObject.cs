@@ -18,4 +18,12 @@ public class WallObject : MovingObject
             }
         }
     }
+
+    public void Init()
+    {
+        if (TryGetComponent(out StarListHandler starlist))
+        {
+            starlist.OpenStars();
+        }
+    }
 }
