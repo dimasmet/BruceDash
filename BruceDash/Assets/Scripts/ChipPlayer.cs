@@ -29,16 +29,32 @@ public class ChipPlayer : MonoBehaviour
 
     private Vector2 posStart;
 
+    private bool isControl = false;
+
     private void Start()
     {
         posStart = transform.position;
 
-        GameMain.OnStartGame += ResetChipPlayer;
+        GameMain.OnClearScene += ResetChipPlayer;
+        GameMain.OnClearScene += StartControl;
+        GameMain.OnEndGame += StopControl;
     }
 
     private void OnDestroy()
     {
-        GameMain.OnStartGame -= ResetChipPlayer;
+        GameMain.OnClearScene -= ResetChipPlayer;
+        GameMain.OnClearScene -= StartControl;
+        GameMain.OnEndGame -= StopControl;
+    }
+
+    private void StartControl()
+    {
+        isControl = true;
+    }
+
+    private void StopControl()
+    {
+        isControl = false;
     }
 
     public void SetSkin(int numberSkin)
@@ -107,13 +123,16 @@ public class ChipPlayer : MonoBehaviour
 
     private void Update()
     {
-        if (Input.touchCount > 0)
+        if (isControl)
         {
-            Touch touch = Input.GetTouch(0);
-            if (touch.phase == TouchPhase.Stationary && isGround)
+            if (Input.touchCount > 0)
             {
-                _rbBall.AddForce(Vector2.up * _forceJump);
-                isGround = false;
+                Touch touch = Input.GetTouch(0);
+                if (touch.phase == TouchPhase.Stationary && isGround)
+                {
+                    _rbBall.AddForce(Vector2.up * _forceJump);
+                    isGround = false;
+                }
             }
         }
     }

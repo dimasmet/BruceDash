@@ -22,6 +22,8 @@ public class MainUIHandler : MonoBehaviour
     [SerializeField] private Button _openStoreButton;
     [SerializeField] private Button _closeStoreButton;
 
+    [SerializeField] private RulesViewGame _rulesViewGame;
+
     public enum NamePanel
     {
         Menu,
@@ -41,7 +43,7 @@ public class MainUIHandler : MonoBehaviour
         {
             ActivePanel(NamePanel.Game);
 
-            GameMain.Instance.FirstStartLevel();
+            _rulesViewGame.ShowRulesGame();
         });
 
         _recordOpenButton.onClick.AddListener(() =>
@@ -77,6 +79,7 @@ public class MainUIHandler : MonoBehaviour
         switch (namePanel)
         {
             case NamePanel.Menu:
+                Time.timeScale = 1;
                 _currentActivePanel = _menuPanel;
                 break;
             case NamePanel.Game:

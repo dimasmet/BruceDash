@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -108,9 +106,14 @@ public class GameMain : MonoBehaviour
             _numberCurrentLevel++;
             currentLevel = _levelsData[_numberCurrentLevel];
 
-            GameMain.OnStartGame?.Invoke();
+            OnStartGame?.Invoke();
         }
         else
-            Debug.Log("end game");
+        {
+            Debug.Log("Game Over");
+
+            OnEndGame?.Invoke();
+            OnResultGame?.Invoke();
+        }
     }
 }

@@ -53,6 +53,12 @@ public class SpawnerGame : MonoBehaviour
         StopAllCoroutines();
     }
 
+    public void BackToLevelSpeedTime()
+    {
+        Time.timeScale = GameMain.currentLevel.speedMove;
+        TimeS = Time.timeScale;
+    }
+
     public void StartGame()
     {
         _countWall = 0;
@@ -60,8 +66,6 @@ public class SpawnerGame : MonoBehaviour
         _textMesh.text = "STEP " + GameMain.currentLevel.numberLevel;
         _tableStep.transform.position = _posSpawnWall.position;
         _tableStep.gameObject.SetActive(true);
-
-        Debug.Log("StartGame " + GameMain.currentLevel.speedMove);
 
         Time.timeScale = GameMain.currentLevel.speedMove;
         TimeS = Time.timeScale;
