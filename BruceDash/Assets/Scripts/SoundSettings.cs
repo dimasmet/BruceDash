@@ -55,7 +55,7 @@ public class SoundSettings : MonoBehaviour
 
         _vibroBtn.onClick.AddListener(() =>
         {
-            isVibro = !_vibroBtn;
+            isVibro = !isVibro;
 
             if (isVibro)
             {

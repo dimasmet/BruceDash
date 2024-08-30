@@ -7,6 +7,7 @@ public class RulesViewGame : MonoBehaviour
     [SerializeField] private GameObject[] _rulesPanel;
 
     [SerializeField] private Button _okButton;
+    [SerializeField] private Button _skipButton;
 
     private int numberPanel;
 
@@ -25,6 +26,12 @@ public class RulesViewGame : MonoBehaviour
                 GameMain.Instance.FirstStartLevel();
                 _rules.SetActive(false);
             }
+        });
+
+        _skipButton.onClick.AddListener(() =>
+        {
+            GameMain.Instance.FirstStartLevel();
+            _rules.SetActive(false);
         });
     }
 
