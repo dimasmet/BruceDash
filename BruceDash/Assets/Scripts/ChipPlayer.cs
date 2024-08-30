@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using RichTap.Source;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,6 +31,8 @@ public class ChipPlayer : MonoBehaviour
     private Vector2 posStart;
 
     private bool isControl = false;
+
+    [SerializeField] private RichtapClipEffect effect;
 
     private void Start()
     {
@@ -101,6 +104,10 @@ public class ChipPlayer : MonoBehaviour
             _particleSystem.Stop();
             GameMain.OnEndGame?.Invoke();
             GameMain.OnResultGame?.Invoke();
+
+            SoundSettings.I.RunSound(SoundSettings.NameSound.Destroy);
+            if (SoundSettings.isVibro)
+                effect.Play();
         }
     }
 
@@ -110,6 +117,8 @@ public class ChipPlayer : MonoBehaviour
         {
             star.CollectCoin();
             BalancePlayer.OnAddedBalance?.Invoke(1);
+
+            SoundSettings.I.RunSound(SoundSettings.NameSound.Coin);
         }
     }
 

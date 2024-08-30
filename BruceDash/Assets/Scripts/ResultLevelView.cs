@@ -39,5 +39,7 @@ public class ResultLevelView : MonoBehaviour
         _resultTimeText.text = timeResult;
 
         _animation.Play("Open");
+
+        SoundSettings.I.RunSound(SoundSettings.NameSound.Lose);
     }
 }

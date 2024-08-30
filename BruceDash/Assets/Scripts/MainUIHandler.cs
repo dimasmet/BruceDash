@@ -13,6 +13,8 @@ public class MainUIHandler : MonoBehaviour
     [SerializeField] private GameObject _gamePanel;
     [SerializeField] private GameObject _recordPanel;
     [SerializeField] private GameObject _storePanel;
+    [SerializeField] private GameObject _settingsPanel;
+    [SerializeField] private GameObject _soundSettingsPanel;
 
     private GameObject _currentActivePanel;
 
@@ -29,7 +31,9 @@ public class MainUIHandler : MonoBehaviour
         Menu,
         Game,
         Store,
-        RecordPlayer
+        RecordPlayer,
+        Settings,
+        SoundSettings
     }
 
     private void Awake()
@@ -41,6 +45,7 @@ public class MainUIHandler : MonoBehaviour
 
         _playBtn.onClick.AddListener(() =>
         {
+            SoundSettings.I.RunSound(SoundSettings.NameSound.Click);
             ActivePanel(NamePanel.Game);
 
             _rulesViewGame.ShowRulesGame();
@@ -48,21 +53,25 @@ public class MainUIHandler : MonoBehaviour
 
         _recordOpenButton.onClick.AddListener(() =>
         {
+            SoundSettings.I.RunSound(SoundSettings.NameSound.Click);
             ActivePanel(NamePanel.RecordPlayer);
         });
 
         _recordCloseButton.onClick.AddListener(() =>
         {
+            SoundSettings.I.RunSound(SoundSettings.NameSound.Click);
             ActivePanel(NamePanel.Menu);
         });
 
         _openStoreButton.onClick.AddListener(() =>
         {
+            SoundSettings.I.RunSound(SoundSettings.NameSound.Click);
             ActivePanel(NamePanel.Store);
         });
 
         _closeStoreButton.onClick.AddListener(() =>
         {
+            SoundSettings.I.RunSound(SoundSettings.NameSound.Click);
             ActivePanel(NamePanel.Menu);
         });
     }
@@ -90,6 +99,12 @@ public class MainUIHandler : MonoBehaviour
                 break;
             case NamePanel.Store:
                 _currentActivePanel = _storePanel;
+                break;
+            case NamePanel.Settings:
+                _currentActivePanel = _settingsPanel;
+                break;
+            case NamePanel.SoundSettings:
+                _currentActivePanel = _soundSettingsPanel;
                 break;
         }
 
