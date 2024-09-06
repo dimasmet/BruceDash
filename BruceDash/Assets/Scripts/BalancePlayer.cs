@@ -16,13 +16,6 @@ public class BalancePlayer
         _balanceText = textBalance;
         _balance = PlayerPrefs.GetInt("BalancePlayer");
 
-#if UNITY_EDITOR
-        if (_balance == 0)
-        {
-            _balance = 3000;
-        }
-#endif
-
         UpdateTextField();
 
         OnAddedBalance += AddBalance;
