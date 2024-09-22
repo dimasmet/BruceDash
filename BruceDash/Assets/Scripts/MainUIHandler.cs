@@ -16,6 +16,8 @@ public class MainUIHandler : MonoBehaviour
     [SerializeField] private GameObject _settingsPanel;
     [SerializeField] private GameObject _soundSettingsPanel;
 
+    [SerializeField] private Transform _containerStore;
+
     private GameObject _currentActivePanel;
 
     [SerializeField] private Button _recordOpenButton;
@@ -99,6 +101,8 @@ public class MainUIHandler : MonoBehaviour
                 break;
             case NamePanel.Store:
                 _currentActivePanel = _storePanel;
+
+                _containerStore.transform.position = new Vector2(0, _containerStore.transform.position.y);
                 break;
             case NamePanel.Settings:
                 _currentActivePanel = _settingsPanel;

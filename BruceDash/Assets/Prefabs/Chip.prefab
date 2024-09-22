@@ -6269,10 +6269,18 @@ MonoBehaviour:
     colorParticles: {r: 0.9882353, g: 0.8901961, b: 0.15294118, a: 1}
   - skin: {fileID: 21300000, guid: f203eca5ebd5441a7a0da1a161df805c, type: 3}
     colorParticles: {r: 0.9372549, g: 0.32941177, b: 0, a: 1}
+  - skin: {fileID: 21300000, guid: f4dc863b912a54094b7e774cbecf2377, type: 3}
+    colorParticles: {r: 0.110754766, g: 0.9372549, b: 0, a: 1}
   _rbBall: {fileID: 7720034556254220210}
   _forceJump: 1150
   _particleSystem: {fileID: 7720034555703901420}
   _prefabsDestoroyObjects: {fileID: 2041752254}
+  effect:
+    amplitude: 255
+    frequency: 0
+    loopCount: -1
+    loopInterval: 1
+    clip: {fileID: -7002115202950517066, guid: 6b5e18e2730661a4b8cbf0e4b7a1ae8e, type: 3}
 --- !u!1 &7720034556648217748
 GameObject:
   m_ObjectHideFlags: 0

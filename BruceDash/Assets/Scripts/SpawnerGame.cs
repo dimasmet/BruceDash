@@ -21,6 +21,8 @@ public class SpawnerGame : MonoBehaviour
     [SerializeField] private WallObject _WallDouble;
     [SerializeField] private WallObject _TreeDouble;
     [SerializeField] private WallObject _TreeThrow;
+    [SerializeField] private WallObject _ThreeWall;
+    [SerializeField] private WallObject _ThreeThorw2;
     [SerializeField] private MovingObject _CircleLevel;
 
     [SerializeField] private MovingObject _tableStep;
@@ -90,20 +92,18 @@ public class SpawnerGame : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(_timeSpawnWall);
-
             if (_countWall % 2 == 0)
             {
                 int randomValue = Random.Range(0, 100);
 
-                if (randomValue > 70)
+                if (randomValue > 80)
                 {
                     _WallDouble.transform.position = _posSpawnWall.position;
                     _WallDouble.gameObject.SetActive(true);
                 }
                 else
                 {
-                    if (randomValue <= 70 && randomValue >30)
+                    if (randomValue <= 80 && randomValue >60)
                     {
                         _TreeDouble.transform.position = _posSpawnCircle.position;
                         _TreeDouble.gameObject.SetActive(true);
@@ -111,9 +111,27 @@ public class SpawnerGame : MonoBehaviour
                     }
                     else
                     {
-                        _TreeThrow.transform.position = _posSpawnCircle.position;
-                        _TreeThrow.gameObject.SetActive(true);
-                        _TreeThrow.Init();
+                        if (randomValue <= 60 && randomValue > 40)
+                        {
+                            _TreeThrow.transform.position = _posSpawnCircle.position;
+                            _TreeThrow.gameObject.SetActive(true);
+                            _TreeThrow.Init();
+                        }
+                        else
+                        {
+                            if (randomValue >= 40 && randomValue > 20)
+                            {
+                                _ThreeWall.transform.position = _posSpawnCircle.position;
+                                _ThreeWall.gameObject.SetActive(true);
+                                _ThreeWall.Init();
+                            }
+                            else
+                            {
+                                _ThreeThorw2.transform.position = _posSpawnCircle.position;
+                                _ThreeThorw2.gameObject.SetActive(true);
+                                _ThreeThorw2.Init();
+                            }
+                        }
                     }
                 }
             }
@@ -132,6 +150,8 @@ public class SpawnerGame : MonoBehaviour
                 Invoke(nameof(SpawnTreeBlocksBonus),2f);
                 StopAllCoroutines();
             }
+
+            yield return new WaitForSeconds(_timeSpawnWall);
         }
     }
 
