@@ -83,6 +83,12 @@ public class SoundSettings : MonoBehaviour
         _soundsGame.volume = slider.value;
     }
 
+    public void BonusTaked()
+    {
+        _backgroundSound.volume = 0;
+        _soundsGame.volume = 0;
+    }
+    
     public void RunSound(NameSound name)
     {
         switch (name)

@@ -25,12 +25,13 @@ public class DayBonusStars : MonoBehaviour
     [SerializeField] private GameObject _panel;
     [SerializeField] private Text _dayNumber;
     [SerializeField] private Text _valueCountStars;
+    [SerializeField] private Text _dateText;
 
     [SerializeField] private Button _okBtn;
 
     [SerializeField] private DateLastRunGame dateLastRunGame;
 
-    private DateTime _currentDate;
+    public DateTime CurrentDate;
     private DateTime _lastDate;
 
     private int numberBonus;
@@ -43,60 +44,58 @@ public class DayBonusStars : MonoBehaviour
 
             BalancePlayer.OnAddedBalance?.Invoke(dayBonusValue[numberBonus].valueCountStars);
         });
-    }
 
-    private void Start()
-    {
         CheckDateCurrentDayBonus();
     }
 
     public void CheckDateCurrentDayBonus()
     {
-        _currentDate = DateTime.Now;
+        CurrentDate = DateTime.Now;
+
+        _dateText.text = CurrentDate.ToShortDateString();
 
         string jsDayLast = PlayerPrefs.GetString("LastDayBonus");
 
-        if (jsDayLast != "")
-        {
-            numberBonus = PlayerPrefs.GetInt("BonusNumber");
-
-            if (numberBonus < 6)
+            if (jsDayLast != "")
             {
-                numberBonus++;
+                numberBonus = PlayerPrefs.GetInt("BonusNumber");
 
-                dateLastRunGame = JsonUtility.FromJson<DateLastRunGame>(jsDayLast);
-                Debug.Log(jsDayLast);
-
-                _lastDate = new DateTime(dateLastRunGame.year, dateLastRunGame.month, dateLastRunGame.day);
-
-                Debug.Log((_currentDate - _lastDate).TotalDays);
-                if ((int)(_currentDate - _lastDate).TotalDays == 1)
+                if (numberBonus < 6)
                 {
-                    ShowNewDayBonus();
-                }
-                else
-                {
-                    if (((int)(_currentDate - _lastDate).TotalDays > 1))
+                    numberBonus++;
+
+                    dateLastRunGame = JsonUtility.FromJson<DateLastRunGame>(jsDayLast);
+
+                    _lastDate = new DateTime(dateLastRunGame.year, dateLastRunGame.month, dateLastRunGame.day);
+
+                    if ((int)(CurrentDate - _lastDate).TotalDays == 1)
                     {
-                        Debug.Log("Dat lose");
-                        PlayerPrefs.SetString("LastDayBonus", "");
+                        ShowNewDayBonus();
                     }
                     else
                     {
-                        Debug.Log("Bonus was taked");
+                        if (((int)(CurrentDate - _lastDate).TotalDays > 1))
+                        {
+                            Debug.Log("Dat lose");
+                            PlayerPrefs.SetString("LastDayBonus", "");
+                        }
+                        else
+                        {
+                            Debug.Log("Bonus was taked");
+                        }
                     }
+                }
+                else
+                {
+                    Debug.Log("new weak");
+                    NewWeakBonuses();
                 }
             }
             else
             {
-                Debug.Log("new weak");
                 NewWeakBonuses();
             }
-        }
-        else
-        {
-            NewWeakBonuses();
-        }
+        
     }
 
     private void ShowNewDayBonus()
@@ -104,9 +103,9 @@ public class DayBonusStars : MonoBehaviour
         Debug.Log("New Day");
 
         dateLastRunGame = new DateLastRunGame();
-        dateLastRunGame.day = _currentDate.Day;
-        dateLastRunGame.month = _currentDate.Month;
-        dateLastRunGame.year = _currentDate.Year;
+        dateLastRunGame.day = CurrentDate.Day;
+        dateLastRunGame.month = CurrentDate.Month;
+        dateLastRunGame.year = CurrentDate.Year;
 
         _valueCountStars.text = dayBonusValue[numberBonus].valueCountStars.ToString();
         _dayNumber.text = "DAY " + (numberBonus + 1).ToString();
